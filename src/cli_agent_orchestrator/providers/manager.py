@@ -10,6 +10,7 @@ from cli_agent_orchestrator.providers.base import BaseProvider
 from cli_agent_orchestrator.providers.claude_code import ClaudeCodeProvider
 from cli_agent_orchestrator.providers.codex import CodexProvider
 from cli_agent_orchestrator.providers.copilot_cli import CopilotCliProvider
+from cli_agent_orchestrator.providers.custom_cli import CustomCliProvider
 from cli_agent_orchestrator.providers.cursor_cli import CursorCliProvider
 from cli_agent_orchestrator.providers.gemini_cli import GeminiCliProvider
 from cli_agent_orchestrator.providers.hermes import HermesProvider
@@ -117,6 +118,17 @@ class ProviderManager:
                 )
             elif provider_type == ProviderType.HERMES.value:
                 provider = HermesProvider(
+                    terminal_id,
+                    tmux_session,
+                    tmux_window,
+                    agent_profile,
+                    allowed_tools,
+                    skill_prompt=skill_prompt,
+                )
+            elif provider_type == ProviderType.CUSTOM_CLI.value:
+                if not agent_profile:
+                    raise ValueError("Custom CLI provider requires agent_profile parameter")
+                provider = CustomCliProvider(
                     terminal_id,
                     tmux_session,
                     tmux_window,

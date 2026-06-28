@@ -62,3 +62,17 @@ class AgentProfile(BaseModel):
     # example one created by `hermes profile alias <profile>`). When omitted,
     # the Hermes provider launches the default `hermes` command.
     hermesProfile: Optional[str] = Field(default=None, min_length=1)
+
+    # Custom CLI provider fields. Allows CAO to orchestrate arbitrary REPL-style
+    # tools (for example Factory and Perplexity wrappers) without adding a new
+    # hard-coded provider for each integration.
+    customCliCommand: Optional[str] = Field(default=None, min_length=1)
+    customCliIdleRegex: Optional[str] = None
+    customCliProcessingRegex: Optional[str] = None
+    customCliWaitingRegex: Optional[str] = None
+    customCliErrorRegex: Optional[str] = None
+    customCliUserPrefixRegex: Optional[str] = None
+    customCliAssistantPrefixRegex: Optional[str] = None
+    customCliExitCommand: Optional[str] = None
+    customCliInitTimeout: Optional[int] = None
+    customCliPasteEnterCount: Optional[int] = None

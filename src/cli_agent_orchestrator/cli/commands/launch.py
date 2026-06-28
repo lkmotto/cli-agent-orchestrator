@@ -28,6 +28,7 @@ PROVIDERS_REQUIRING_WORKSPACE_ACCESS = {
     "claude_code",
     "codex",
     "copilot_cli",
+    "custom_cli",
     "cursor_cli",
     "gemini_cli",
     "hermes",

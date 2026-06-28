@@ -7,6 +7,7 @@ import pytest
 from cli_agent_orchestrator.models.provider import ProviderType
 from cli_agent_orchestrator.providers.codex import CodexProvider
 from cli_agent_orchestrator.providers.copilot_cli import CopilotCliProvider
+from cli_agent_orchestrator.providers.custom_cli import CustomCliProvider
 from cli_agent_orchestrator.providers.hermes import HermesProvider
 from cli_agent_orchestrator.providers.manager import ProviderManager
 
@@ -51,6 +52,32 @@ def test_create_provider_hermes_stores_mapping():
 
     assert isinstance(provider, HermesProvider)
     assert manager.get_provider("t1") is provider
+
+
+def test_create_provider_custom_cli_stores_mapping():
+    manager = ProviderManager()
+    provider = manager.create_provider(
+        ProviderType.CUSTOM_CLI.value,
+        terminal_id="t1",
+        tmux_session="s1",
+        tmux_window="w1",
+        agent_profile="factory_operator",
+    )
+
+    assert isinstance(provider, CustomCliProvider)
+    assert manager.get_provider("t1") is provider
+
+
+def test_create_provider_custom_cli_without_agent_profile_raises():
+    manager = ProviderManager()
+    with pytest.raises(ValueError, match="Custom CLI provider requires agent_profile parameter"):
+        manager.create_provider(
+            ProviderType.CUSTOM_CLI.value,
+            terminal_id="t1",
+            tmux_session="s1",
+            tmux_window="w1",
+            agent_profile=None,
+        )
 
 
 def test_create_provider_unknown_type_raises():
